@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import store from './store'
-import Login from './views/Login.vue'
+import Login from './views/user/Login.vue'
 
 Vue.use(Router)
 
@@ -20,7 +20,7 @@ const router = new Router({
     {
       path: '/register',
       name: 'register',
-      component: () => import(/* webpackChunkName: "register" */ './views/Register.vue'),
+      component: () => import(/* webpackChunkName: "register" */ './views/user/Register.vue'),
       meta: {
         noAuthorization: true
       }
