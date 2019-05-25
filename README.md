@@ -65,7 +65,7 @@ const router = new Router({
     {
       path: '/register',
       name: 'register',
-      component: () => import(/* webpackChunkName: "register" */ './views/Register.vue'),
+      component: () => import(/* webpackChunkName: "register" */ './views/user/Register.vue'),
       meta: {
         noAuthorization: true
       }
