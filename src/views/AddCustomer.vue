@@ -9,15 +9,6 @@
         placeholder="name"
       ></a-input>
     </a-form-item>
-    <a-form-item label="身份证">
-      <a-input
-        v-decorator="[
-          'id',
-          { rules: [{ required: true, message: '请输入身份证！' }] }
-        ]"
-        placeholder="id"
-      ></a-input>
-    </a-form-item>
     <a-form-item label="手机">
       <a-input
         v-decorator="[

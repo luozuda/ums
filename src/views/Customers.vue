@@ -8,7 +8,7 @@
     <a-list :grid="{ gutter: 16, xs: 1, sm: 2, md: 3, lg: 3, xl: 3, xxl: 6 }" :dataSource="data">
       <a-list-item slot="renderItem" slot-scope="item, index">
         <a-card :title="item.name">
-          <p>身份证：{{item.id}}</p>
+          <p>编号：{{item.id}}</p>
           <p>手机：{{item.phone}}</p>
           <p>住址：{{item.address}}</p>
           <p>备注：{{item.remarks}}</p>
@@ -23,7 +23,7 @@
           <a-input addonBefore="用户名" v-decorator="['name']" disabled/>
         </a-form-item>
         <a-form-item>
-          <a-input addonBefore="身份证" v-decorator="['id']" disabled/>
+          <a-input addonBefore="编号" v-decorator="['id']" disabled/>
         </a-form-item>
         <a-form-item>
           <a-input
