@@ -48,6 +48,15 @@ api.get(url,{params:{...}}).then(res=>{console.log(res)}).catch((err)=>{console.
 ```
 
 # vue-router
+引入使用
+```
+import Vue from 'vue'
+import Router from 'vue-router'
+import store from './store'
+import Login from './views/user/Login.vue'
+
+Vue.use(Router)
+```
 路由基本配置与路由懒加载
 ```
 const router = new Router({
