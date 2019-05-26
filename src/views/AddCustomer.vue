@@ -43,12 +43,8 @@ export default {
           api
             .get("/addCustomer", { params: values })
             .then(res => {
-              if (res.status == 200 && res.data.code == 0) {
-                this.$message.success(res.data.msg);
-                this.$router.push({ path: "/customers" });
-              } else {
-                this.$message.error(res.data.msg);
-              }
+              this.$message.success(res.data.msg);
+              this.$router.push({ path: "/customers" });
             })
             .catch(err => {
               this.$message.error(err);

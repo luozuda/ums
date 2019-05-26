@@ -8,7 +8,6 @@
     <a-list :grid="{ gutter: 16, xs: 1, sm: 2, md: 3, lg: 3, xl: 3, xxl: 6 }" :dataSource="data">
       <a-list-item slot="renderItem" slot-scope="item, index">
         <a-card :title="item.name">
-          <p>编号：{{item.id}}</p>
           <p>手机：{{item.phone}}</p>
           <p>住址：{{item.address}}</p>
           <p>备注：{{item.remarks}}</p>
@@ -21,9 +20,6 @@
       <a-form :form="form" @submit.prevent="handleSubmit">
         <a-form-item>
           <a-input addonBefore="用户名" v-decorator="['name']" disabled/>
-        </a-form-item>
-        <a-form-item>
-          <a-input addonBefore="编号" v-decorator="['id']" disabled/>
         </a-form-item>
         <a-form-item>
           <a-input
@@ -70,11 +66,7 @@ export default {
       api
         .get("/customers")
         .then(res => {
-          if (res.status == 200 && res.data.code == 0) {
-            this.data = res.data.data;
-          } else {
-            this.$message.error(res.data.msg);
-          }
+          this.data = res.data.data;
         })
         .catch(err => {
           this.$message.error(err);
@@ -86,11 +78,7 @@ export default {
           params: { value: value }
         })
         .then(res => {
-          if (res.status == 200 && res.data.code == 0) {
-            this.data = res.data.data;
-          } else {
-            this.$message.error(res.data.msg);
-          }
+          this.data = res.data.data;
         })
         .catch(err => {
           this.$message.error(err);
@@ -128,13 +116,9 @@ export default {
           api
             .get("/editCustomer", { params: values })
             .then(res => {
-              if (res.status == 200 && res.data.code == 0) {
-                this.data = res.data.data;
-                this.$message.success(res.data.msg);
-                this.visible = false;
-              } else {
-                this.$message.error(res.data.msg);
-              }
+              this.data = res.data.data;
+              this.$message.success(res.data.msg);
+              this.visible = false;
             })
             .catch(err => {
               this.$message.error(err);

@@ -3,7 +3,7 @@
     <a-form-item>
       <a-input
         v-decorator="[
-          'userName',
+          'username',
           { rules: [{ required: true, message: '请输入账号！' }] }
         ]"
         placeholder="账号"
@@ -40,16 +40,12 @@ export default {
       this.form.validateFields((err, values) => {
         if (!err) {
           api
-            .get("/login", { params: values })
+            .post("/auth/login", values)
             .then(res => {
-              if (res.status == 200 && res.data.code == 0) {
-                localStorage.setItem("token", res.data.token);
-                localStorage.setItem("userName", res.data.userName);
-                this.$message.success(res.data.msg);
-                this.$router.push({ path: "/customers" });
-              } else {
-                this.$message.error(res.data.msg);
-              }
+              localStorage.setItem("token", res.data.token);
+              localStorage.setItem("userName", res.data.userName);
+              this.$message.success(res.data.msg);
+              this.$router.push({ path: "/customers" });
             })
             .catch(err => {
               this.$message.error(err);

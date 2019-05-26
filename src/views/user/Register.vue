@@ -3,7 +3,7 @@
     <a-form-item v-bind="formItemLayout" label="账号">
       <a-input
         v-decorator="[
-          'userName',
+          'username',
           {
             rules: [{
               required: true, message: '请输入账号!',
@@ -87,15 +87,12 @@ export default {
     handleSubmit() {
       this.form.validateFieldsAndScroll((err, values) => {
         if (!err) {
+          delete values.confirm;
           api
-            .get("/register", { params: values })
+            .post("/auth/register", values)
             .then(res => {
-              if (res.status == 200 && res.data.code == 0) {
-                this.$message.success(res.data.msg);
-                this.$router.push({ path: "/login" });
-              } else {
-                this.$message.error(res.data.msg);
-              }
+              this.$message.success(res.data.msg);
+              this.$router.push({ path: "/login" });
             })
             .catch(err => {
               this.$message.error(err);
