@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import router from './router'
 
 Vue.use(Vuex)
 
-export default new Vuex.Store({
+const store = new Vuex.Store({
   state: {
     token: "",
     userName: ""
@@ -14,9 +15,18 @@ export default new Vuex.Store({
     },
     setUserName(state, userName) {
       state.userName = userName
+    },
+    //退出当前账号
+    logout(state) {
+      localStorage.clear();
+      state.token = ""
+      state.userName = ""
+      router.replace({ path: '/login' })
     }
   },
   actions: {
 
   }
 })
+
+export default store

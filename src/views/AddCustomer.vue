@@ -41,7 +41,7 @@ export default {
       this.form.validateFields((err, values) => {
         if (!err) {
           api
-            .get("/addCustomer", { params: values })
+            .post("/customer/add", values)
             .then(res => {
               this.$message.success(res.data.msg);
               this.$router.push({ path: "/customers" });

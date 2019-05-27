@@ -29,10 +29,7 @@ export default {
   },
   methods: {
     logout() {
-      localStorage.clear();
-      this.$store.commit("setToken", "");
-      this.$store.commit("setUserName", "");
-      this.$router.replace("login");
+      this.$store.commit("logout");
     }
   }
 };

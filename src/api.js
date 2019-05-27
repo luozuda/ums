@@ -1,5 +1,5 @@
 import axios from 'axios'
-import router from './router'
+import store from './store'
 
 var api = axios.create({
     baseURL: process.env.NODE_ENV === 'production' ?
@@ -26,16 +26,10 @@ api.interceptors.response.use(res => {
     }
     return res
 }, err => {
-    if (err.response) {
-        switch (err.response.status) {
-            case 401://token过期
-            case 403://token无效
-                localStorage.clear()
-                router.replace({ path: '/login' })
-                break
-        }
+    if (err.response.status == 403) {//token无效或过期
+        store.commit('logout')
     }
-    return Promise.reject(err)
+    return Promise.reject(err.response.data.msg)
 })
 
 export { api }

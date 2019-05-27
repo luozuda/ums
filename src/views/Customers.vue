@@ -1,7 +1,7 @@
 <template>
   <div>
     <a-input-search
-      placeholder="请输入搜索的内容"
+      placeholder="搜索用户名(精确搜索)"
       style="width: 200px;margin-bottom:10px;"
       @search="onSearch"
     />
@@ -64,7 +64,7 @@ export default {
   methods: {
     fetchCustomers() {
       api
-        .get("/customers")
+        .post("/customer/all")
         .then(res => {
           this.data = res.data.data;
         })
@@ -73,10 +73,12 @@ export default {
         });
     },
     onSearch(value) {
+      if (value == "") {
+        this.fetchCustomers();
+        return;
+      }
       api
-        .get("/searchCustomer", {
-          params: { value: value }
-        })
+        .post("/customer/search", { value })
         .then(res => {
           this.data = res.data.data;
         })
@@ -91,7 +93,7 @@ export default {
         okText: "删除",
         onOk() {
           api
-            .get("/delCustomer", { params: { index: index } })
+            .get("/customer/delete", { params: { index: index } })
             .then(res => {
               _this.data = res.data.data;
               _this.$message.success(res.data.msg);
@@ -114,7 +116,7 @@ export default {
       this.form.validateFields((err, values) => {
         if (!err) {
           api
-            .get("/editCustomer", { params: values })
+            .get("/customer/edit", { params: values })
             .then(res => {
               this.data = res.data.data;
               this.$message.success(res.data.msg);

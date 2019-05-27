@@ -52,7 +52,7 @@ router.beforeEach((to, from, next) => {
       store.commit("setUserName", userName);
       next()
     } else {
-      next('login')//没有token或token已过期（未实现），跳转到登录页面
+      next('login')//没有token或token已过期，跳转到登录页面
     }
   } else {//免登陆页面
     next()
