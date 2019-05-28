@@ -9,6 +9,7 @@
       <a-list-item slot="renderItem" slot-scope="item">
         <a-card :title="item.name">
           <p>手机：{{item.phone}}</p>
+          <p>性别：{{item.sex=='a'?'男':'女'}}</p>
           <p>住址：{{item.address}}</p>
           <p>备注：{{item.remarks}}</p>
           <a slot="actions" @click="editCustomer(item)">编辑</a>
@@ -33,6 +34,23 @@
               }
             ]"
           />
+        </a-form-item>
+        <a-form-item>
+          <a-radio-group
+            addonBefore="性别"
+            v-decorator="[
+              'sex',
+              {
+                rules: [{
+                  required: true, message: '性别不能为空!',
+                }],
+              }
+            ]"
+            buttonStyle="solid"
+          >
+            <a-radio-button value="a">男</a-radio-button>
+            <a-radio-button value="b">女</a-radio-button>
+          </a-radio-group>
         </a-form-item>
         <a-form-item>
           <a-input addonBefore="住址" v-decorator="['address']"/>

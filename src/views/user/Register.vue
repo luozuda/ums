@@ -55,7 +55,6 @@ export default {
   data() {
     return {
       confirmDirty: false,
-      autoCompleteResult: [],
       formItemLayout: {
         labelCol: {
           xs: { span: 24 },

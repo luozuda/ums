@@ -1,6 +1,6 @@
 <template>
   <a-form :form="form" @submit.prevent="handleSubmit">
-    <a-form-item label="用户名">
+    <a-form-item :label-col="labelCol" :wrapper-col="wrapperCol" label="用户名">
       <a-input
         v-decorator="[
           'name',
@@ -9,7 +9,7 @@
         placeholder="name"
       ></a-input>
     </a-form-item>
-    <a-form-item label="手机">
+    <a-form-item :label-col="labelCol" :wrapper-col="wrapperCol" label="手机">
       <a-input
         v-decorator="[
           'phone',
@@ -18,10 +18,26 @@
         placeholder="phone"
       ></a-input>
     </a-form-item>
-    <a-form-item label="住址">
+    <a-form-item :label-col="labelCol" :wrapper-col="wrapperCol" label="性别">
+      <a-radio-group
+        v-decorator="[
+          'sex',
+          {
+            rules: [{
+              required: true, message: '性别不能为空!',
+            }],
+          }
+        ]"
+        buttonStyle="solid"
+      >
+        <a-radio-button value="a">男</a-radio-button>
+        <a-radio-button value="b">女</a-radio-button>
+      </a-radio-group>
+    </a-form-item>
+    <a-form-item :label-col="labelCol" :wrapper-col="wrapperCol" label="住址">
       <a-input v-decorator="['address']" placeholder="address"></a-input>
     </a-form-item>
-    <a-form-item label="备注">
+    <a-form-item :label-col="labelCol" :wrapper-col="wrapperCol" label="备注">
       <a-input v-decorator="['remarks']" placeholder="remarks"></a-input>
     </a-form-item>
     <a-form-item>
@@ -33,7 +49,20 @@
 <script>
 import { api } from "../api";
 export default {
-  beforeCreate() {
+  data() {
+    return {
+      sex: "",
+      labelCol: {
+        xs: { span: 24 },
+        sm: { span: 5 }
+      },
+      wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 19 }
+      }
+    };
+  },
+  beforeMount() {
     this.form = this.$form.createForm(this);
   },
   methods: {
