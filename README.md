@@ -26,7 +26,7 @@ Vue.use(antd)
 新建api.js,配置axios
 ```
 import axios from 'axios'
-import router from './router'
+import store from './store'
 
 var api = axios.create({
     baseURL: process.env.NODE_ENV === 'production' ?
@@ -53,28 +53,22 @@ api.interceptors.response.use(res => {
     }
     return res
 }, err => {
-    if (err.response) {
-        switch (err.response.status) {
-            case 401://token过期
-            case 403://token无效
-                localStorage.clear()
-                router.replace({ path: '/login' })
-                break
-        }
+    if (err.response.status == 403) {//token无效或过期
+        store.commit('logout')
     }
-    return Promise.reject(err)
+    return Promise.reject(err.response.data.msg)
 })
 
 export { api }
 ```
-使用示例
+在vue实例中使用，例：
 ```
 api.get(url,{params:{...}}).then(res=>{console.log(res)}).catch((err)=>{console.error(err)})
 api.post(url,{...}).then(res=>{console.log(res)}).catch((err)=>{console.error(err)})
 ```
 
-# vue-router
-引入使用
+## vue-router
+在router.js中引入使用
 ```
 import Vue from 'vue'
 import Router from 'vue-router'
@@ -83,7 +77,7 @@ import Login from './views/user/Login.vue'
 
 Vue.use(Router)
 ```
-路由基本配置与路由懒加载
+创建路由实例，并配置路由懒加载
 ```
 const router = new Router({
   mode: 'history',
@@ -133,10 +127,55 @@ router.beforeEach((to, from, next) => {
       store.commit("setUserName", userName);
       next()
     } else {
-      next('login')//没有token或token已过期（未实现），跳转到登录页面
+      next('login')//没有token或token已过期，跳转到登录页面
     }
   } else {//免登陆页面
     next()
   }
 })
+```
+导出模块
+```
+export default router
+```
+
+## vuex
+在store.js中引入使用
+```
+import Vue from 'vue'
+import Vuex from 'vuex'
+import router from './router'
+
+Vue.use(Vuex)
+```
+配置Store
+```
+const store = new Vuex.Store({
+  state: {
+    token: "",
+    userName: ""
+  },
+  mutations: {
+    setToken(state, token) {
+      state.token = token
+    },
+    setUserName(state, userName) {
+      state.userName = userName
+    },
+    //退出当前账号
+    logout(state) {
+      localStorage.clear();
+      state.token = ""
+      state.userName = ""
+      router.replace({ path: '/login' })
+    }
+  },
+  actions: {
+
+  }
+})
+```
+导出模块
+```
+export default store
 ```
