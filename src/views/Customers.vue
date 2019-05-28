@@ -6,13 +6,13 @@
       @search="onSearch"
     />
     <a-list :grid="{ gutter: 16, xs: 1, sm: 2, md: 3, lg: 3, xl: 3, xxl: 6 }" :dataSource="data">
-      <a-list-item slot="renderItem" slot-scope="item, index">
+      <a-list-item slot="renderItem" slot-scope="item">
         <a-card :title="item.name">
           <p>手机：{{item.phone}}</p>
           <p>住址：{{item.address}}</p>
           <p>备注：{{item.remarks}}</p>
           <a slot="actions" @click="editCustomer(item)">编辑</a>
-          <a slot="actions" @click="delCustomer(item.name,index)">删除</a>
+          <a slot="actions" @click="delCustomer(item.name)">删除</a>
         </a-card>
       </a-list-item>
     </a-list>
@@ -73,27 +73,27 @@ export default {
         });
     },
     onSearch(value) {
-      if (value == "") {
+      if (value) {
+        api
+          .post("/customer/search", { value })
+          .then(res => {
+            this.data = res.data.data;
+          })
+          .catch(err => {
+            this.$message.error(err);
+          });
+      } else {
         this.fetchCustomers();
-        return;
       }
-      api
-        .post("/customer/search", { value })
-        .then(res => {
-          this.data = res.data.data;
-        })
-        .catch(err => {
-          this.$message.error(err);
-        });
     },
-    delCustomer(name, index) {
+    delCustomer(name) {
       const _this = this;
       this.$confirm({
         title: "确定删除用户：" + name + "？",
         okText: "删除",
         onOk() {
           api
-            .get("/customer/delete", { params: { index: index } })
+            .post("/customer/delete", { name })
             .then(res => {
               _this.data = res.data.data;
               _this.$message.success(res.data.msg);
@@ -116,7 +116,7 @@ export default {
       this.form.validateFields((err, values) => {
         if (!err) {
           api
-            .get("/customer/edit", { params: values })
+            .post("/customer/edit", values)
             .then(res => {
               this.data = res.data.data;
               this.$message.success(res.data.msg);
