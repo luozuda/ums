@@ -1,5 +1,5 @@
 <template>
-  <a-form :form="form" class="login-form" @submit.prevent="handleSubmit">
+  <a-form :form="form" @submit.prevent="handleSubmit">
     <a-form-item>
       <a-input
         v-decorator="[
@@ -24,7 +24,7 @@
       </a-input>
     </a-form-item>
     <a-form-item>
-      <a-button type="primary" html-type="submit" class="login-form-button">登录</a-button>
+      <a-button type="primary" html-type="submit" style="width:100%">登录</a-button>
     </a-form-item>
   </a-form>
 </template>
@@ -45,7 +45,7 @@ export default {
               localStorage.setItem("token", res.data.token);
               localStorage.setItem("userName", res.data.userName);
               this.$message.success(res.data.msg);
-              this.$router.push({ path: "/customers" });
+              this.$router.push({ path: "/customerManage/customers" });
             })
             .catch(err => {
               this.$message.error(err);
@@ -56,8 +56,3 @@ export default {
   }
 };
 </script>
-<style>
-.login-form-button {
-  width: 100%;
-}
-</style>

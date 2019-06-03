@@ -1,9 +1,9 @@
 <template>
   <div id="app">
-    <Header></Header>
-    <a-layout style="padding-top: 64px;">
-      <slider></slider>
-      <a-layout-content :style="{ background: '#fff', padding: '24px', minHeight: '600px' }">
+    <Header :style="{padding: '0 24px'}"></Header>
+    <a-layout :style="{background: '#fff', paddingTop: '64px'}">
+      <slider v-if="this.$store.state.token"></slider>
+      <a-layout-content :style="{ padding: '24px', minHeight: '590px' }">
         <router-view/>
       </a-layout-content>
     </a-layout>
@@ -12,8 +12,8 @@
 </template>
 
 <script>
-import Header from "./views/Header";
-import Slider from "./views/Slider";
+import Header from "./components/Header";
+import Slider from "./components/Slider";
 export default {
   components: {
     Header,
@@ -23,9 +23,6 @@ export default {
 </script>
 
 <style lang="scss">
-.header.ant-layout-header {
-  padding: 0 24px;
-}
 form.ant-form {
   max-width: 300px;
   margin: 20px auto;
